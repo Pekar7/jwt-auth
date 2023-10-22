@@ -29,6 +29,7 @@ public class CasinoUser implements UserDetails {
     private String email;
     private String password;
     private UserRole role;
+    private String token;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

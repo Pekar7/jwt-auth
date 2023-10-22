@@ -22,13 +22,19 @@ public class AuthenticationController {
 
 
     @PostMapping("/registration")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    public String register(@RequestBody RegisterRequest request) {
+        return authenticationService.register(request);
     }
 
     @PostMapping("/authentication")
     public ResponseEntity<AuthenticationResponse> authentication(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+
+    @PostMapping("/outh")
+    public ResponseEntity<?> outhAuthentication(@RequestBody String jwtToken) {
+        return ResponseEntity.ok(authenticationService.outhAuth(jwtToken));
     }
 }
 

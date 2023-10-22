@@ -23,19 +23,27 @@ public class AuthenticationService {
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public String register(RegisterRequest request) {
+
+        boolean isRegistered = userRepository.findByEmail(request.getEmail()).isPresent();
+        if (isRegistered) {
+            return "Account already exists ";
+        }
+
         var user = CasinoUser.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
-                .role(UserRole.valueOf(UserRole.USER.name()))
+                .role(UserRole.USER)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
-        userRepository.save(user);
+
         var jwtToken = jwtService.generateToken(user);
+        user.setToken(jwtToken);
+        userRepository.save(user);
         return AuthenticationResponse
                 .builder()
-                .token(jwtToken).build();
+                .token(jwtToken).build().getToken();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -50,5 +58,9 @@ public class AuthenticationService {
         return AuthenticationResponse
                 .builder()
                 .token(jwtToken).build();
+    }
+
+    public boolean outhAuth(String jwtToken) {
+        return jwtService.isTokenValid(jwtToken);
     }
 }
