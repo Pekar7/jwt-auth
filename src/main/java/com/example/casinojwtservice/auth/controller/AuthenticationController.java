@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin()
+@CrossOrigin("*")
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
     //http://localhost:8080/swagger-ui/index.html#/authentication-controller/authentication
@@ -35,6 +35,11 @@ public class AuthenticationController {
     @PostMapping("/outh")
     public ResponseEntity<?> outhAuthentication(@RequestBody String jwtToken) {
         return ResponseEntity.ok(authenticationService.outhAuth(jwtToken));
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello";
     }
 }
 
