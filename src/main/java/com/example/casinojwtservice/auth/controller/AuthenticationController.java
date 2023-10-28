@@ -22,24 +22,30 @@ public class AuthenticationController {
 
 
     @PostMapping("/registration")
-    public String register(@RequestBody RegisterRequest request) {
+    public String register(@RequestParam String firstName,
+                           @RequestParam String lastName,
+                           @RequestParam String email,
+                           @RequestParam String password) {
+        RegisterRequest request = RegisterRequest.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .password(password)
+                .email(email).build();
         return authenticationService.register(request);
     }
 
     @PostMapping("/authentication")
-    public ResponseEntity<AuthenticationResponse> authentication(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+    public ResponseEntity<AuthenticationResponse> authentication(@RequestParam String email, @RequestParam String password) {
+        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder()
+                .email(email)
+                .password(password)
+                .build();
+        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
-
 
     @PostMapping("/outh")
     public ResponseEntity<?> outhAuthentication(@RequestBody String jwtToken) {
         return ResponseEntity.ok(authenticationService.outhAuth(jwtToken));
-    }
-
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello";
     }
 }
 
