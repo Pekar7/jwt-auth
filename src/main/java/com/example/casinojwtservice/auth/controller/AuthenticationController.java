@@ -44,7 +44,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/outh")
-    public ResponseEntity<?> outhAuthentication(@RequestBody String jwtToken) {
+    public ResponseEntity<?> outhAuthentication(@RequestParam String jwtToken) {
         return ResponseEntity.ok(authenticationService.outhAuth(jwtToken));
     }
 }
