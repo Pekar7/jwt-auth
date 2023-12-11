@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
-    //http://localhost:8080/swagger-ui/index.html#/authentication-controller/authentication
+    //http://localhost:8084/swagger-ui/index.html#/authentication-controller/authentication
     private final AuthenticationService authenticationService;
 
     @Autowired

@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_DB: jwtdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 20012003
+    ports:
+      - "5433:5432"
+
+  app:
+    build: .
+    image: auth_casino
+    container_name: auth_casino
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/jwtdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 20012003
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8090:8080"
